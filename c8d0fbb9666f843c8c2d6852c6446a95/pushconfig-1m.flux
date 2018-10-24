@@ -20,7 +20,7 @@ option task = {
 }
 
 base = from(bucket: "services/1hour") |> range(start: -10m) |> filter( fn: (r) => r._measurement == "pushconfig")
-toBucket = (table=<-) => table |> set(key: "_measurement", valu: "pushconfig-rollup" ) |>  to(org: "0492cb87e4ea2a22", bucket: "services/1year") 
+toBucket = (table=<-) => table |> set(key: "_measurement", value: "pushconfig-rollup" ) |>  to(org: "0492cb87e4ea2a22", bucket: "services/1year") 
 groupBy = (table=<-) => table |> group(by: ["environment", "endpoint", "handler", "method", "status_code"]) |> window(every: task.every) 
 
 // content_length roll up

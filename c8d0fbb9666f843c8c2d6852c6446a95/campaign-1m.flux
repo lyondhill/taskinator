@@ -17,14 +17,15 @@
 option task = {
     name: "campaign-1m",
     every: 1m,
+    delay: 5m,
 }
 
 base = from(bucket: "services/1hour") |> range(start: -10m) |> filter( fn: (r) => r._measurement == "campaign")
-toBucket = (table=<-) => table |> set(key: "_measurement", value: "campaig-rollup" ) |>  to(org: "0492cb87e4ea2a22", bucket: "services/1year") 
+toBucket = (table=<-) => table |> set(key: "_measurement", value: "campaign-rollup" ) |>  to(org: "0492cb87e4ea2a22", bucket: "services/1year") 
 groupBy = (table=<-) => table |> group(by: ["environment", "endpoint", "handler", "method", "status_code"]) |> window(every: task.every) 
 
 // content_length roll up
-base |> filter(fn: (r) => r._field == "content_length") |> groupBy() |> percentile(percentile: 0.95) |> set(key: "_field", value: "content_length") |> toBucket()
+base |> filter(fn: (r) => r._field == "content_length") |> groupBy() |> percentile(percentile: 0.95) |> toBucket()
 
 // duration roll up
 duration = base |> filter( fn: (r) => r._field == "duration") |> groupBy()

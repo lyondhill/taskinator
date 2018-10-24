@@ -17,6 +17,7 @@
 option task = {
     name: "mailpoll-1m",
     every: 1m,
+    delay: 5m,
 }
 
 base = from(bucket: "services/1hour") |> range(start: -task.every) |> filter( fn: (r) => r._measurement == "mailpoll") |> window(every: task.every) |> group(by: ["environment", "endpoint", "handler", "method", "status_code"]) 

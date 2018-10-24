@@ -17,6 +17,7 @@
 option task = {
     name: "subscriber-sync-1m",
     every: 1m,
+    delay: 5m,
 }
 
 base = from(bucket: "consumers/2weeks") |> range(start: -task.every) |> filter(fn: (r) => r._measurement == "subscriber-sync" )

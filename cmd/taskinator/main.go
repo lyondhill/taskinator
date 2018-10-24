@@ -70,11 +70,11 @@ func runner(cmd *cobra.Command, args []string) {
 					fmt.Println("ok you got me. Subdirectories are hard..")
 				}
 
-				doIt(filepath.Join(abs, info.Name(), inf.Name()))
+				doIt(filepath.Join(abs, inf.Name()))
 			}
 			continue
 		}
-		doIt(filepath.Join(abs, info.Name()))
+		doIt(abs)
 	}
 }
 

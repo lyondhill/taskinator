@@ -21,7 +21,7 @@ option task = {
 }
 
 base = from(bucket: "services/1hour") |> range(start: -task.every) |> filter( fn: (r) => r._measurement == "anabroker")
-toBucket = (table=<-) => table |> set(key: "_measurement", value: "anabroke-rollup" ) |>  to(org: "0492cb87e4ea2a22", bucket: "services/1year") 
+toBucket = (table=<-) => table |> set(key: "_measurement", value: "anabroker-rollup" ) |>  to(org: "0492cb87e4ea2a22", bucket: "services/1year") 
 groupBy = (table=<-) => table |> group(by: ["environment", "endpoint", "handler", "method", "status_code"]) |> window(every: task.every) 
 
 // content_length roll up

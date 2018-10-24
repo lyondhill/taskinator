@@ -1,20 +1,20 @@
-CREATE CONTINUOUS
-QUERY "payment-gateway-1m" ON services 
-BEGIN 
-SELECT 
-    percentile("duration", 95) AS "duration", 
-    percentile("duration", 98) AS "max-duration", 
-    percentile(content_length, 95) AS content_length, 
-    count("duration") AS requests,
-    percentile(kms_decrypt, 95) AS kms_decrypt, 
-    percentile(kms_encrypt, 95) AS kms_encrypt 
-INTO 
-    services."1year"."payment-gateway-rollup" 
-FROM 
-    services."1hour"."payment-gateway" 
-GROUP BY 
-    time(1m), environment, endpoint, handler, method, status_code, error 
-END
+//CREATE CONTINUOUS
+//QUERY "payment-gateway-1m" ON services 
+//BEGIN 
+//SELECT 
+//    percentile("duration", 95) AS "duration", 
+//    percentile("duration", 98) AS "max-duration", 
+//    percentile(content_length, 95) AS content_length, 
+//    count("duration") AS requests,
+//    percentile(kms_decrypt, 95) AS kms_decrypt, 
+//    percentile(kms_encrypt, 95) AS kms_encrypt 
+//INTO 
+//    services."1year"."payment-gateway-rollup" 
+//FROM 
+//    services."1hour"."payment-gateway" 
+//GROUP BY 
+//    time(1m), environment, endpoint, handler, method, status_code, error 
+//END
 
 option task = {
     name: "payment-gateway",

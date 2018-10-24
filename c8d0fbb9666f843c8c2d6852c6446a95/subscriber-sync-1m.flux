@@ -24,7 +24,7 @@ base = from(bucket: "consumers/2weeks") |> range(start: -task.every) |> filter(f
 toBucket = (table=<-) => table |> set(key: "_measurement", value: "subscriber-sync-1m" ) |>  to(org: "0492cb87e4ea2a22", bucket: "consumers/1year") 
 groupBy = (table=<-) => table |> group(by: ["consumer", "acked", "environment", "error", "event_type", "exception", "redelivered", "requeued", "version"]) |> window(every: task.every) 
 
-base |> filter(fn: (r) => r._field == "message_age" ) |> groupBy() |> percentile(percentile: 95) |> toBucket()
-base |> filter(fn: (r) => r._field == "processing_time" ) |> groupBy() |> percentile(percentile: 95) |> toBucket()
+base |> filter(fn: (r) => r._field == "message_age" ) |> groupBy() |> percentile(percentile: 0.95) |> toBucket()
+base |> filter(fn: (r) => r._field == "processing_time" ) |> groupBy() |> percentile(percentile: 0.95) |> toBucket()
 base |> filter(fn: (r) => r._field == "rebuild.conflict" ) |> set(key: "_field", value: "rebuild_conflict")|> groupBy() |> sum() |> toBucket()
 base |> filter(fn: (r) => r._field == "processing_time" ) |> set(key: "_field", value: "messages_processed") |> groupBy() |> count() |> toBucket()
